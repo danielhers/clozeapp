@@ -93,12 +93,12 @@ def insert_sample_data():
 
     courses = [u"היסטוריה עולמית", u"מקרוכלכלה", u"C++"]
     for i, course in enumerate(courses):
-        sample_course = Course(id=i, name=course[i])
+        sample_course = Course(id=i, name=course)
         sample_course.save()
 
     topics = [u"היסטוריה עכשווית", u"המהפכה הצרפתית", u"ימי הביניים", u"העת העתיקה"]
     for i, topic in enumerate(topics):
-        sample_deck = Deck(id=i, course=Course.objects.get(pk=0), user=sample_user, name=topics[i])
+        sample_deck = Deck(id=i, course=Course.objects.get(pk=0), user=sample_user, name=topic)
         sample_deck.save()
 
     sample_text1 = u"מלחמת העולם _הראשונה_ הסתיימה בשנת 1917"
