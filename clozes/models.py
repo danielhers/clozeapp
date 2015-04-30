@@ -31,11 +31,11 @@ class Deck(models.Model):
         for i, chunk in enumerate(chunks):
             is_blank = i % 2 == 1
             if is_blank:
-                new_chunk = BlankTextChunk(id=i,
+                new_chunk = BlankTextChunk(id=None,
                                            next_appearance=date.today() + timedelta(days=INTERVALS[0]),
                                            e_factor=INITIAL_E_FACTOR)
             else:
-                new_chunk = TextChunk(id=i)
+                new_chunk = TextChunk(id=None)
             new_chunk.text = chunk
             new_chunk.card = new_card
             new_chunk.index = i
