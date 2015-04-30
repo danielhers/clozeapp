@@ -8,10 +8,6 @@
 			   cloze_click(this.id);
 			});
 			
-			var dec_id=3;
-			var skip_url = "/skip/" + dec_id;
-			$(".skip_button").attr("href",skip_url);
-			
 			$(function () {
 				$('[data-toggle="popover"]').popover({html: true});
 			});

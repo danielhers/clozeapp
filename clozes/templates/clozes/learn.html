@@ -18,7 +18,7 @@
 <div>{{ card.name }}</div>
 {% for chunk in card.textchunk_set.all %}
     {% if chunk.is_hidden %}
-        <span id="cloze{{ chunk.id }}" class="cloze-chunk">{{ chunk.text }}</span>
+        <span id="{{ chunk.id }}" class="cloze-chunk">{{ chunk.text }}</span>
     {% else %}
         <span class="context">{{ chunk.text }}</span>
     {% endif %}
@@ -26,7 +26,9 @@
 </section>
 
 <nav>
-<a class="btn btn-default skip_button" > דלג </a> <button type="button"; class="btn-lg btn-success" data-toggle="modal" data-target="#myModal" onclick="on_end_click()"> סיימתי! </button> <button type="button" class="btn btn-info">החלף קורס  </button>
+<a class="btn btn-default"> דלג </a>
+<a style="cursor: pointer" class="btn-lg btn-success" data-toggle="modal" data-target="#myModal" onclick="on_end_click()">סיימתי!</a>
+<a href="{% url 'index' %}" class="btn btn-info">קורס אחר</a>
 </nav>
 
 
@@ -37,12 +39,12 @@
       <div class="modal-content">
      
         <div class="modal-body">
-			<span style="font-size">ציון המבחן: </span>
+			<span style="font-size:10">ציון המבחן: </span>
 			<span id="myModal_grade"></span>
         </div>
         <div id="myModal_footer" class="modal-footer">
-          <button type="button" class="btn btn-info" data-dismiss="modal" style="margin:20px" >החלף קורס</button>
-		  <a type="button" class="btn-lg btn-success skip_button" data-dismiss="modal" >יאללה עוד אחד!</a>
+          <a href="{% url 'index' %}" class="btn btn-info">קורס אחר</a>
+		  <a href="{% url 'learn' card.deck.id %}" class="btn-lg btn-success">יאללה עוד אחד!</a>
         </div>
       </div>
       
