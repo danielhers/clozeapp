@@ -25,5 +25,31 @@
 {% endfor %}
 </section>
 
+<nav>
+<a class="btn btn-default skip_button" > דלג </a> <button type="button"; class="btn-lg btn-success" data-toggle="modal" data-target="#myModal" onclick="on_end_click()"> סיימתי! </button> <button type="button" class="btn btn-info">החלף קורס  </button>
+</nav>
+
+
+ <!-- Modal -->
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">   
+      <!-- Modal content-->
+      <div class="modal-content">
+     
+        <div class="modal-body">
+			<span style="font-size">ציון המבחן: </span>
+			<span id="myModal_grade"></span>
+        </div>
+        <div id="myModal_footer" class="modal-footer">
+          <button type="button" class="btn btn-info" data-dismiss="modal" style="margin:20px" >החלף קורס</button>
+		  <a type="button" class="btn-lg btn-success skip_button" data-dismiss="modal" >יאללה עוד אחד!</a>
+        </div>
+      </div>
+      
+    </div>
+ </div>
+
+
+
 </body>
 </html>

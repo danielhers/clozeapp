@@ -8,6 +8,10 @@
 			   cloze_click(this.id);
 			});
 			
+			var dec_id=3;
+			var skip_url = "/skip/" + dec_id;
+			$(".skip_button").attr("href",skip_url);
+			
 			$(function () {
 				$('[data-toggle="popover"]').popover({html: true});
 			});
@@ -30,6 +34,8 @@
 		}
 		
 		function on_result_click(elem){
+			var url = "/update/"+elem.getAttribute("caller"); 
+			
 			switch (elem.value) {
 				case "0":
 					var x = "#"+elem.getAttribute("caller");
@@ -47,9 +53,20 @@
 			$("#"+elem.getAttribute("caller")).popover('hide');
 			sum_scores = sum_scores + parseInt(elem.value);
 			
+			
+			$.ajax({
+				type: "POST",
+				url: url,
+				data: elem.value,
+			});
+			
+		}
+		
+		function on_end_click() {
+			var grade = sum_scores*100/maximal_score;
+			$("#myModal_grade").html(grade.toFixed(1));
 		}
 		
 		
 		$(document).ready(prepare_page);
-		
 		
