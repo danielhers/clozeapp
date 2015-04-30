@@ -2,27 +2,39 @@
 <html dir="rtl" lang="he">
 
 <head>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{% static 'css/cloze_page_style.css' %}">
+    <title>מסך בחירת קורסים</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script src="{% static 'js/dropdowns-enhancement.js' %}"></script>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/dropdowns-enhancement.css' %}">
 </head>
 <body>
 
-<div class="page-header">
-    <h1> ClozeApp </h1>
-</div>
+<h1 class = "text-center">מה אלמד היום? :)</h1>
+<dl> </dl>
 
 {% if course_list %}
     {% for course in course_list %}
-        <h2> {{ course.name }} </h2>
-        <ul>
-        {% for deck in course.deck_set.all %}
-            <li>
-                <a href="{% url 'learn' deck.id %}">{{ deck.name }}</a>
-                (<a href="{% url 'insert' deck.id %}">הכנסת כרטיסיה חדשה</a>)
-            </li>
-        {% endfor %}
-        </ul>
+        <dl class="dl-horizontal">
+            <div class="btn-group" style="text-align: -webkit-center; display:block">
+                <div  style="text-align: -webkit-center">
+                <button data-toggle="dropdown" class="btn btn-default dropdown-toggle">{{ course.name }}
+                    <span class="caret"></span>
+                </button>
+                {% for deck in course.deck_set.all %}
+                    <ul class="dropdown-menu pull-center">
+                      {% if not forloop.first %}
+                          <li class="divider"></li>
+                      {% endif %}
+                      <li class="text-right"><a href="{% url 'learn' deck.id %}">{{ deck.name }}</a></li>
+                        <!--(<a href="{% url 'insert' deck.id %}">הכנסת כרטיסיה חדשה</a>)-->
+                    </ul>
+                {% endfor %}
+                </div>
+            </div>
+        </dl>
     {% endfor %}
 {% else %}
     <p>לא נמצאו קורסים.</p>
