@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from datetime import date
-import datetime
+from datetime import date, datetime
 from django.db.models import Min
 
 
@@ -33,7 +32,11 @@ class TextChunk(models.Model):
 
     @property
     def is_hidden(self):
-        return False
+        try:
+            b = BlankTextChunk.objects.get(pk=self.id)
+            return b.next_appearance > datetime.date(datetime.now())
+        except BlankTextChunk.DoesNotExist:
+            return False
 
     def __str__(self):
         return self.text
@@ -42,13 +45,6 @@ class TextChunk(models.Model):
 class BlankTextChunk(TextChunk):
     next_appearance = models.DateField()
     e_factor = models.IntegerField()
-
-    @property
-    def is_hidden(self):
-        return self.next_appearance > datetime.now()
-
-    def __setattr__(self, next_appearance, val):
-        super(BlankTextChunk, self).__setattr__(next_appearance, val)
 
     def update_user_feedback(self, feedback):
         (interval, new_e_factor) = dummy_interval_algorithm(self, feedback)
