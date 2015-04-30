@@ -20,18 +20,18 @@
         <dl class="dl-horizontal">
             <div class="btn-group" style="text-align: -webkit-center; display:block">
                 <div  style="text-align: -webkit-center">
-                <button data-toggle="dropdown" class="btn btn-default dropdown-toggle">{{ course.name }}
-                    <span class="caret"></span>
+                <button data-toggle="dropdown"
+                        class="btn btn-default dropdown-toggle">{{ course.name }}<span class="caret"></span>
                 </button>
+                <ul class="dropdown-menu pull-center">
                 {% for deck in course.deck_set.all %}
-                    <ul class="dropdown-menu pull-center">
                       {% if not forloop.first %}
                           <li class="divider"></li>
                       {% endif %}
                       <li class="text-right"><a href="{% url 'learn' deck.id %}">{{ deck.name }}</a></li>
                         <!--(<a href="{% url 'insert' deck.id %}">הכנסת כרטיסיה חדשה</a>)-->
-                    </ul>
                 {% endfor %}
+                </ul>
                 </div>
             </div>
         </dl>
