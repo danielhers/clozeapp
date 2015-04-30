@@ -6,10 +6,24 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 	
-	<script> 
-		$(function () {
-			$('[data-toggle="popover"]').popover({html: true});
-		});
+	<script>
+		function prepare_page() {
+			$(function () {
+				$('[data-toggle="popover"]').popover({html: true});
+			});
+			
+			$(".cloze-chunk").click(function() {
+			   cloze_click(this.id);
+			});
+		};
+		
+		function cloze_click(elem_id) {
+			$("#"+elem_id).css("opacity", "1.0");
+		}
+		
+		$(document).ready(prepare_page);
+		
+		
 		
 	</script>
 	
@@ -17,27 +31,35 @@
 	.page-header {
 		text-align:center;
 	}
+	
+	.cloze-chunk {
+		opacity:0.0;
+	}
 	section {
 
 		float:center;
 		padding:100px; 
 	}	
+	
 	</style>
 </head>
 <body>
 <div class="page-header">
-		<h1>Cloze-APP </h1>
+		<h1> Cloze-APP </h1>
 </div>
  
  <section>
-	<span>משתנה </span>
-	<span data-container="body" data-toggle="popover" data-placement="bottom" 
+	<span class="context">משתנה </span>
+	<span id="cloze1" class="cloze-chunk"  data-container="body" data-toggle="popover" data-placement="bottom" 
 			data-content="<button type=&quot;button&quot; class=&quot;btn btn-danger&quot;>Forgot</button>
 				   <button type=&quot;button&quot; class=&quot;btn btn-warning&quot;>Hard</button> 
 				   <button type=&quot;button&quot; class=&quot;btn btn-success&quot;>Easy</button>">
 		סטטי
 	</span>
-	<span>הוא משתנה שמוגדר פעם אחד פר קלאס </span>
+	<span>  הוא משתנה שמעודכן פעם אחד פר קלאס, בניגוד למשתנה </span>
+	<span id="cloze2" class="cloze-chunk">
+	פנימי
+	</span>
 </section>
 	
 </body>
