@@ -7,6 +7,9 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 	
 	<script>
+		var sum_scores = 0.0;
+		var maximal_score = 6.0;
+		
 		function prepare_page() {
 			set_cloze_attributes();
 			
@@ -51,8 +54,10 @@
 					break;
 			}
 			$("#"+elem.getAttribute("caller")).popover('hide');
+			sum_scores = sum_scores + parseInt(elem.value);
 			
 		}
+		
 		
 		$(document).ready(prepare_page);
 		
@@ -76,6 +81,12 @@
 		padding-right:20%; 
 	}	
 	
+	nav {
+		float:center;
+		padding-top:20px;
+		text-align: center;
+	}
+	
 	</style>
 </head>
 <body>
@@ -83,7 +94,7 @@
 		<h1> Cloze-APP </h1>
 </div>
  
- <section>
+<section>
 	<span class="context"> נניח שיש שני משתני מספרים שלמים, a ו-b, המכילים ערכים כלשהם, ורוצים להחליף בין ערכיהם. כבר ראינו כיצד לעשות כך בהחלפה בין ערכי שני משתנים. כעת אנו שמים לב שפעולה זו חוזרת על עצמה מספר פעמים, ולכן אנו מחליטים לכתוב פונקציה המחליפה בין ערכי שני משתנים. להלן ניסיון שגוי לכתוב פונקציה כזו: </span><br>
 	<span class="context"> כלומר, ערכי המשתנים לא הוחלפו. הסיבה לכך שנכשלנו היא שהשתמשנו ב - </span>
 	<span id="1" class="cloze-chunk"> call by value </span> 
@@ -93,6 +104,13 @@
 	<span id="3" class="cloze-chunk"> ההעתקים האלה </span>
 	<span class="context">, ולכן לא משפיעים על המקור. נחזור לנקודה זו כשנדבר על מבנה הזיכרון ומשתנים, ובשימוש במצביעים להעברת משתנים לפונקציה נראה כיצד מצביעים מאפשרים להעביר נתונים לפונקציות בצורה גמישה יותר.</span>
 </section>
+
+<nav>
+<button> דלג </button> <button type="button"; class="btn btn-success"> בדיקה </button> <button> החלף קורס </button>
+</nav>
+
+
+
 	
 </body>
 </html>

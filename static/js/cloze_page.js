@@ -1,3 +1,6 @@
+		var sum_scores = 0.0;
+		var maximal_score = 6.0;
+		
 		function prepare_page() {
 			set_cloze_attributes();
 			
@@ -23,7 +26,7 @@
 		}
 		
 		function cloze_click(elem_id) {
-			$("#"+elem_id).css("opacity", "1.0");
+			$("#"+elem_id).css("color", "rgba(0,0,0,1.0)");
 		}
 		
 		function on_result_click(elem){
@@ -41,9 +44,11 @@
 					$("#"+elem.getAttribute("caller")).css("background-color", "green");
 					break;
 			}
+			$("#"+elem.getAttribute("caller")).popover('hide');
+			sum_scores = sum_scores + parseInt(elem.value);
 			
 		}
-	
+		
 		
 		$(document).ready(prepare_page);
 		

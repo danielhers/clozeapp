@@ -3,10 +3,20 @@
 	}
 	
 .cloze-chunk {
-		opacity:0.0;
+		border: 1px solid black;
+		color: rgba(0,0,0,0.0);
 	}
 
 section {
+
 		float:center;
-		padding:100px; 
+		padding-top:50px; 
+		padding-left:20%;
+		padding-right:20%; 
 	}	
+	
+nav {
+		float:center;
+		padding-top:20px;
+		text-align: center;
+	}
