@@ -25,11 +25,13 @@
                 </button>
                 <ul class="dropdown-menu pull-center">
                 {% for deck in course.deck_set.all %}
-                      {% if not forloop.first %}
-                          <li class="divider"></li>
-                      {% endif %}
-                      <li class="text-right"><a href="{% url 'learn' deck.id %}">{{ deck.name }}</a></li>
-                        <!--(<a href="{% url 'insert' deck.id %}">הכנסת כרטיסיה חדשה</a>)-->
+                  {% if not forloop.first %}
+                      <li class="divider"></li>
+                  {% endif %}
+                  <li class="text-right{% if not deck.card_set.all %} disabled {% endif %}">
+                      <a href="{% url 'learn' deck.id %}">{{ deck.name }} ({{ deck.card_set.count }})</a>
+                  </li>
+                    <!--(<a href="{% url 'insert' deck.id %}">הכנסת כרטיסיה חדשה</a>)-->
                 {% endfor %}
                 </ul>
                 </div>
