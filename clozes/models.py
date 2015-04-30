@@ -4,6 +4,11 @@ from django.contrib.auth.models import User
 from datetime import date, datetime, timedelta
 from django.db.models import Min
 
+INITIAL_E_FACTOR = 2500
+MIN_E_FACTOR = 1300
+E_FACTOR_CHANGE = 200
+INTERVALS = [1, 2]
+
 
 class Course(models.Model):
     name = models.CharField(max_length=50)
@@ -19,7 +24,6 @@ class Deck(models.Model):
         min_next = card_set.aggregate(Min('next_appearance'))['next_appearance__min']
         return card_set.get(next_appearance=min_next)
     
-    
     def add_card(self, card_name, text):
         new_card = Card(id=None, deck=self, name=card_name, next_appearance=date.today())
         new_card.save()
@@ -27,7 +31,9 @@ class Deck(models.Model):
         for i, chunk in enumerate(chunks):
             is_blank = i % 2 == 1
             if is_blank:
-                new_chunk = BlankTextChunk(id=i, next_appearance=date.today() + timedelta(days=i), e_factor=1300)
+                new_chunk = BlankTextChunk(id=i,
+                                           next_appearance=date.today() + timedelta(days=INTERVALS[0]),
+                                           e_factor=INITIAL_E_FACTOR)
             else:
                 new_chunk = TextChunk(id=i)
             new_chunk.text = chunk
@@ -74,17 +80,21 @@ class TextChunk(models.Model):
 class BlankTextChunk(TextChunk):
     next_appearance = models.DateField()
     e_factor = models.IntegerField()
+    last_interval = models.IntegerField(default=INTERVALS[0])
 
-    def update_user_feedback(self, feedback):
-        (interval, new_e_factor) = dummy_interval_algorithm(self, feedback)
+    def update_user_feedback(self, user_rating):
+        (interval, new_e_factor) = interval_algorithm(self.e_factor, self.last_interval, user_rating)
         self.next_appearance += interval
         self.e_factor = new_e_factor
         self.card.update_next_appearance()
 
 
-def dummy_interval_algorithm(blank, feedback):
-    return 2
-
+def interval_algorithm(e_factor, last_interval, user_rating):
+    if user_rating == 0:
+        return INTERVALS[0], e_factor
+    elif user_rating == 2:
+        e_factor = max(MIN_E_FACTOR, e_factor + E_FACTOR_CHANGE)
+    return int(round(last_interval * e_factor)), e_factor
 
 
 def insert_sample_data():
