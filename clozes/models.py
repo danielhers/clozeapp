@@ -19,6 +19,7 @@ class Deck(models.Model):
         min_next = card_set.aggregate(Min('next_appearance'))['next_appearance__min']
         return card_set.get(next_appearance=min_next)
 
+
 class Card(models.Model):
     deck = models.ForeignKey(Deck)
     name = models.CharField(max_length=50)
@@ -57,13 +58,15 @@ class BlankTextChunk(TextChunk):
         self.e_factor = new_e_factor
         self.card.update_next_appearance()
 
+
 def dummy_interval_algorithm(blank, feedback):
     return 2
+
 
 def save_sample_text(text, card):
     chunks = text.split("_")
     # TODO this is probably wrong
-    for i,chunk in enumerate(chunks):
+    for i, chunk in enumerate(chunks):
         is_blank = i % 2 == 1
         if is_blank:
             new_chunk = BlankTextChunk(id=i, next_appearance=date.today() + timedelta(days=i), e_factor=1300)
@@ -74,6 +77,7 @@ def save_sample_text(text, card):
         new_chunk.index = i
         new_chunk.save()
     card.update_next_appearance()
+
 
 def insert_sample_data():
     # Create user
@@ -88,6 +92,3 @@ def insert_sample_data():
     save_sample_text(sample_text1, sample_card)
     sample_text2 = "מלחמת העולם השנייה פרצה בשנת _1939_ ותמה בשנת _1945_"
     save_sample_text(sample_text2, sample_card)
-
-if __name__ == "__main__":
-    pass # populate DB with simple data
