@@ -23,8 +23,6 @@ def learn(request, course_id, deck_id):
 
 
 def update(request, course_id, deck_id, card_id, chunk_id):
-    course = get_object_or_404(Course, pk=course_id)
-    deck = get_object_or_404(Deck, pk=deck_id)
-    card = get_object_or_404(Card, pk=card_id)
-    chunk = get_object_or_404(TextChunk, chunk_id)
+    blank = get_object_or_404(BlankTextChunk, pk=chunk_id)
+    blank.update_user_feedback(request.post)
     return HttpResponse('')

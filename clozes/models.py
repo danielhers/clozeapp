@@ -1,6 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import User
 from datetime import date
+import datetime
+from django.db.models import Min
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
 
 class Course(models.Model):
     name = models.CharField(max_length=50)
@@ -15,28 +19,49 @@ class Card(models.Model):
     name = models.CharField(max_length=50)
     next_appearance = models.DateField()
 
+    def update_next_appearance(self):
+        blanks = Card.objects.all()[0].textchunk_set.filter(blanktextchunk__next_appearance__isnull=False)
+        self.next_appearance = blanks.aggregate(Min('blanktextchunk__next_appearance')).values()[0]
+        self.save()
+
 class TextChunk(models.Model):
     text = models.TextField()
     card = models.ForeignKey(Card)
     index = models.IntegerField()
 
+    def __str__(self):
+        return self.text
+
 class BlankTextChunk(TextChunk):
     next_appearance = models.DateField()
     e_factor = models.IntegerField()
 
+    def __setattr__(self, next_appearance, val):
+        super(BlankTextChunk, self).__setattr__(next_appearance, val)
+
+    def update_user_feedback(self, feedback):
+        (interval, new_e_factor) = dummy_interval_algorithm(self, feedback)
+        self.next_appearance += interval
+        self.e_factor = new_e_factor
+        self.card.update_next_appearance()
+
+def dummy_interval_algorithm(blank, feedback):
+    return 2
+
 def save_sample_text(text, card):
     chunks = text.split("_")
     # TODO this is probably wrong
-    i = 1;
-    for chunk in chunks:
-        is_blank = i % 2 == 0
+    for i,chunk in enumerate(chunks):
+        is_blank = i % 2 == 1
         if is_blank:
-            new_chunk = BlankTextChunk(id=1, next_appearance=date.today(), e_factor=1300)
+            new_chunk = BlankTextChunk(id=i, next_appearance=date.today() + datetime.timedelta(days=i), e_factor=1300)
         else:
-            new_chunk = TextChunk(id=1)
+            new_chunk = TextChunk(id=i)
         new_chunk.text = chunk
         new_chunk.card = card
         new_chunk.index = i
+        new_chunk.save()
+    card.update_next_appearance()
 
 def insert_sample_data():
     # Create user
