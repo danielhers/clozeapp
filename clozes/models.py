@@ -3,16 +3,17 @@ from django.contrib.auth.models import User
 from datetime import date
 import datetime
 from django.db.models import Min
-from django.db.models.signals import pre_save
-from django.dispatch import receiver
+
 
 class Course(models.Model):
     name = models.CharField(max_length=50)
+
 
 class Deck(models.Model):
     course = models.ForeignKey(Course)
     user = models.ForeignKey(User)
     name = models.CharField(max_length=50)
+
 
 class Card(models.Model):
     deck = models.ForeignKey(Deck)
@@ -24,17 +25,27 @@ class Card(models.Model):
         self.next_appearance = blanks.aggregate(Min('blanktextchunk__next_appearance')).values()[0]
         self.save()
 
+
 class TextChunk(models.Model):
     text = models.TextField()
     card = models.ForeignKey(Card)
     index = models.IntegerField()
 
+    @property
+    def is_hidden(self):
+        return False
+
     def __str__(self):
         return self.text
+
 
 class BlankTextChunk(TextChunk):
     next_appearance = models.DateField()
     e_factor = models.IntegerField()
+
+    @property
+    def is_hidden(self):
+        return self.next_appearance > datetime.now()
 
     def __setattr__(self, next_appearance, val):
         super(BlankTextChunk, self).__setattr__(next_appearance, val)

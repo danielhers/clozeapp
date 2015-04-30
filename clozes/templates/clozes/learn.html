@@ -1,7 +1,14 @@
 {% if card_list %}
     <ul>
     {% for card in card_list %}
-        <li>{{ card }}</li>
+        <li>{{ card.name }}</li>
+        {% for chunk in card.textchunk_set.all %}
+            {% if chunk.is_hidden %}
+                ----
+            {% else %}
+                {{ chunk.text }}
+            {% endif %}
+        {% endfor %}
     {% endfor %}
     </ul>
 {% else %}
