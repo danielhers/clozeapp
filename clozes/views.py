@@ -11,8 +11,8 @@ def index(request):
 
 def learn(request, deck_id):
     deck = get_object_or_404(Deck, pk=deck_id)
-    card_list = deck.card_set.all()
-    return render(request, 'clozes/learn.html', {'deck': deck, 'card_list': card_list})
+    card = deck.next_card()
+    return render(request, 'clozes/learn.html', {'card': card})
 
 
 def update(request, chunk_id):

@@ -14,6 +14,10 @@ class Deck(models.Model):
     user = models.ForeignKey(User)
     name = models.CharField(max_length=50)
 
+    def next_card(self):
+        card_set = self.card_set
+        min_next = card_set.aggregate(Min('next_appearance'))['next_appearance__min']
+        return card_set.get(next_appearance=min_next)
 
 class Card(models.Model):
     deck = models.ForeignKey(Deck)
