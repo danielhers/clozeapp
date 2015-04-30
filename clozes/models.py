@@ -30,6 +30,9 @@ class Card(models.Model):
         self.next_appearance = blanks.aggregate(Min('blanktextchunk__next_appearance')).values()[0]
         self.save()
 
+    def skip(self):
+        pass
+
 
 class TextChunk(models.Model):
     text = models.TextField()
