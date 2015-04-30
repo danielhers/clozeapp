@@ -32,7 +32,7 @@
 		}
 		
 		function cloze_click(elem_id) {
-			$("#"+elem_id).css("opacity", "1.0");
+			$("#"+elem_id).css("color", "rgba(0,0,0,1.0)");
 		}
 		
 		function on_result_click(elem){
@@ -50,9 +50,9 @@
 					$("#"+elem.getAttribute("caller")).css("background-color", "green");
 					break;
 			}
+			$("#"+elem.getAttribute("caller")).popover('hide');
 			
 		}
-	
 		
 		$(document).ready(prepare_page);
 		
@@ -65,12 +65,15 @@
 	}
 	
 	.cloze-chunk {
-		opacity:0.0;
+		border: 1px solid black;
+		color: rgba(0,0,0,0.0);
 	}
 	section {
 
 		float:center;
-		padding:100px; 
+		padding-top:50px; 
+		padding-left:20%;
+		padding-right:20%; 
 	}	
 	
 	</style>
@@ -81,14 +84,14 @@
 </div>
  
  <section>
-	<span class="context">משתנה </span>
-	<span id="cloze1" class="cloze-chunk">
-		סטטי
-	</span>
-	<span>  הוא משתנה שמעודכן פעם אחד פר קלאס, בניגוד למשתנה </span>
-	<span id="cloze2" class="cloze-chunk">
-	פנימי
-	</span>
+	<span class="context"> נניח שיש שני משתני מספרים שלמים, a ו-b, המכילים ערכים כלשהם, ורוצים להחליף בין ערכיהם. כבר ראינו כיצד לעשות כך בהחלפה בין ערכי שני משתנים. כעת אנו שמים לב שפעולה זו חוזרת על עצמה מספר פעמים, ולכן אנו מחליטים לכתוב פונקציה המחליפה בין ערכי שני משתנים. להלן ניסיון שגוי לכתוב פונקציה כזו: </span><br>
+	<span class="context"> כלומר, ערכי המשתנים לא הוחלפו. הסיבה לכך שנכשלנו היא שהשתמשנו ב - </span>
+	<span id="1" class="cloze-chunk"> call by value </span> 
+	<span class="context">  כלומר, הערכים אותם קיבלה הפונקציה הם  </span>
+	<span id="2" class="cloze-chunk"> רק העתקים </span>
+	<span class="context"> של הערכים המקוריים. השינויים שהפונקציה עושה מתבצעים רק על ה </span>
+	<span id="3" class="cloze-chunk"> ההעתקים האלה </span>
+	<span class="context">, ולכן לא משפיעים על המקור. נחזור לנקודה זו כשנדבר על מבנה הזיכרון ומשתנים, ובשימוש במצביעים להעברת משתנים לפונקציה נראה כיצד מצביעים מאפשרים להעביר נתונים לפונקציות בצורה גמישה יותר.</span>
 </section>
 	
 </body>
