@@ -91,16 +91,24 @@ def insert_sample_data():
     # Create user
     sample_user = User.objects.create_user(username='daniel', email='dani@huji.com', password='1234')
 
-    courses = [u"היסטוריה עולמית", u"מקרוכלכלה", u"C++"]
+    courses = [u"היסטוריה עולמית", u"אינפי 1", u"אינפי 2", u"אינפי 3", u"מקרוכלכלה", u"כימיה אורגנית", u"שפת C"]
     for i, course in enumerate(courses):
-        sample_course = Course(id=i, name=course)
+        sample_course = Course(id=None, name=course)
         sample_course.save()
 
     topics = [u"היסטוריה עכשווית", u"המהפכה הצרפתית", u"ימי הביניים", u"העת העתיקה"]
     for i, topic in enumerate(topics):
-        sample_deck = Deck(id=i, course=Course.objects.get(pk=0), user=sample_user, name=topic)
-        sample_deck.save()
+        Deck(id=None, course=Course.objects.get(name=u"היסטוריה עולמית"), user=sample_user, name=topic).save()
 
+    topics = [u"החלפת סדר גזירה", u"מישור משיק", u"החלפת משתנים באינטגרציה"]
+    for i, topic in enumerate(topics):
+        Deck(id=None, course=Course.objects.get(name=u"אינפי 1"), user=sample_user, name=topic).save()
+
+    topics = [u"טיפוסי משתנים", u"פונקציות", u"פוינטרים", u"bit fields"]
+    for i, topic in enumerate(topics):
+        Deck(id=None, course=Course.objects.get(name=u"שפת C"), user=sample_user, name=topic).save()
+
+    sample_deck = Deck.objects.get(name=u"היסטוריה עכשווית")
     sample_text1 = u"מלחמת העולם _הראשונה_ הסתיימה בשנת 1917"
     sample_deck.add_card(u"מלחמה", sample_text1)
     sample_text2 = u"מלחמת העולם השנייה פרצה בשנת _1939_ ותמה בשנת _1945_"
