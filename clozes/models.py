@@ -1,6 +1,7 @@
+# -*- coding: utf-8 -*-
 from django.db import models
 from django.contrib.auth.models import User
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from django.db.models import Min
 
 
@@ -61,7 +62,7 @@ def save_sample_text(text, card):
     for i,chunk in enumerate(chunks):
         is_blank = i % 2 == 1
         if is_blank:
-            new_chunk = BlankTextChunk(id=i, next_appearance=date.today() + datetime.timedelta(days=i), e_factor=1300)
+            new_chunk = BlankTextChunk(id=i, next_appearance=date.today() + timedelta(days=i), e_factor=1300)
         else:
             new_chunk = TextChunk(id=i)
         new_chunk.text = chunk
@@ -73,15 +74,15 @@ def save_sample_text(text, card):
 def insert_sample_data():
     # Create user
     sample_user = User.objects.create_user(username='daniel', email='dani@huji.com', password='1234')
-    sample_course = Course(id=1, name="World History")
+    sample_course = Course(id=1, name="היסטוריה עולמית")
     sample_course.save()
-    sample_deck = Deck(id=1, course=sample_course, user=sample_user, name='Contemporary History')
+    sample_deck = Deck(id=1, course=sample_course, user=sample_user, name='היסטוריה עכשווית')
     sample_deck.save()
-    sample_card = Card(id=1, deck=sample_deck, name='Wars', next_appearance=date.today())
+    sample_card = Card(id=1, deck=sample_deck, name='מלחמות העולם', next_appearance=date.today())
     sample_card.save()
-    sample_text1 = "The _first_ world war ended in 1917"
+    sample_text1 = "מלחמת העולם _הראשונה_ הסתיימה בשנת 1917"
     save_sample_text(sample_text1, sample_card)
-    sample_text2 = "The second world war started in _1939_ and ended in _1945"
+    sample_text2 = "מלחמת העולם השנייה פרצה בשנת _1939_ ותמה בשנת _1945_"
     save_sample_text(sample_text2, sample_card)
 
 if __name__ == "__main__":
