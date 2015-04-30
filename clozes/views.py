@@ -9,12 +9,6 @@ def index(request):
     return render(request, 'clozes/index.html', {'course_list': course_list})
 
 
-def decks(request, course_id):
-    course = get_object_or_404(Course, pk=course_id)
-    deck_list = course.deck_set.all()
-    return render(request, 'clozes/decks.html', {'course': course, 'deck_list': deck_list})
-
-
 def learn(request, course_id, deck_id):
     course = get_object_or_404(Course, pk=course_id)
     deck = get_object_or_404(Deck, pk=deck_id)

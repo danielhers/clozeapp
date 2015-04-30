@@ -1,9 +1,0 @@
-{% if deck_list %}
-    <ul>
-    {% for deck in deck_list %}
-        <li><a href="/{{ course.id }}/{{ deck.id }}">{{ deck.name }}</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No decks are available.</p>
-{% endif %}

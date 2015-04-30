@@ -2,6 +2,9 @@
     <ul>
     {% for course in course_list %}
         <li><a href="/{{ course.id }}/">{{ course.name }}</a></li>
+        {% for deck in course.deck_set.all %}
+            <li><a href="/{{ course.id }}/{{ deck.id }}/">{{ deck.name }}</a></li>
+        {% endfor %}
     {% endfor %}
     </ul>
 {% else %}
