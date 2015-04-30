@@ -1,0 +1,4 @@
+#!/bin/bash
+
+echo yes | python manage.py flush
+echo "from clozes.models import *; insert_sample_data()" | python manage.py shell
