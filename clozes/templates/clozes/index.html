@@ -3,7 +3,7 @@
     {% for course in course_list %}
         <li>{{ course.name }}</a></li>
         {% for deck in course.deck_set.all %}
-            <li><a href="{% url 'learn' course.id deck.id %}/">{{ deck.name }}</a></li>
+            <li><a href="{% url 'learn' course.id deck.id %}">{{ deck.name }}</a></li>
         {% endfor %}
     {% endfor %}
     </ul>

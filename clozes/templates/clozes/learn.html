@@ -14,22 +14,16 @@
     <h1> ClozeApp </h1>
 </div>
 
-{% if card_list %}
-    {% for card in card_list %}
-        <section>
-        <div>{{ card.name }}</div>
-        {% for chunk in card.textchunk_set.all %}
-            {% if chunk.is_hidden %}
-                <span id="cloze{{ chunk.id }}" class="cloze-chunk">{{ chunk.text }}</span>
-            {% else %}
-                <span class="context">{{ chunk.text }}</span>
-            {% endif %}
-        {% endfor %}
-        </section>
-    {% endfor %}
-{% else %}
-    <p>No cards are available.</p>
-{% endif %}
+<section>
+<div>{{ card.name }}</div>
+{% for chunk in card.textchunk_set.all %}
+    {% if chunk.is_hidden %}
+        <span id="cloze{{ chunk.id }}" class="cloze-chunk">{{ chunk.text }}</span>
+    {% else %}
+        <span class="context">{{ chunk.text }}</span>
+    {% endif %}
+{% endfor %}
+</section>
 
 </body>
 </html>
