@@ -22,7 +22,7 @@ class Deck(models.Model):
     def next_card(self):
         card_set = self.card_set
         min_next = card_set.aggregate(Min('next_appearance'))['next_appearance__min']
-        return card_set.get(next_appearance=min_next)
+        return card_set.filter(next_appearance=min_next)[0]
     
     def add_card(self, card_name, text):
         new_card = Card(id=None, deck=self, name=card_name, next_appearance=date.today())
