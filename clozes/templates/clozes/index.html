@@ -1,12 +1,32 @@
+{% load static %}
+<html dir="rtl" lang="he">
+
+<head>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/cloze_page_style.css' %}">
+</head>
+<body>
+
+<div class="page-header">
+    <h1> ClozeApp </h1>
+</div>
+
 {% if course_list %}
-    <ul>
     {% for course in course_list %}
-        <li>{{ course.name }}</a></li>
+        <h2> {{ course.name }} </h2>
+        <ul>
         {% for deck in course.deck_set.all %}
-            <li><a href="{% url 'learn' course.id deck.id %}">{{ deck.name }}</a></li>
+            <li>
+                <a href="{% url 'learn' deck.id %}">{{ deck.name }}</a>
+                (<a href="{% url 'insert' deck.id %}">הכנסת כרטיסיה חדשה</a>)
+            </li>
         {% endfor %}
+        </ul>
     {% endfor %}
-    </ul>
 {% else %}
-    <p>No courses are available.</p>
+    <p>לא נמצאו קורסים.</p>
 {% endif %}
+
+</body>
+</html>
