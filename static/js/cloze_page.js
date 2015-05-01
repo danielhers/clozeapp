@@ -42,7 +42,7 @@
 					break;
 				
 				case "2":
-					$("#"+elem.getAttribute("caller")).css("background-color", "green");
+					$("#"+elem.getAttribute("caller")).css("background-color", "#49E20E");
 					break;
 			}
 			$("#"+elem.getAttribute("caller")).popover('hide');
