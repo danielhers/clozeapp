@@ -18,7 +18,7 @@
  </section>
 
 <section class="cloze-form">
-<div>{{ card.name }}</div>
+<h3>{{ card.name }}</h3>
 {% for chunk in card.chunks %}
     {% if chunk.is_hidden %}
         <span id="{{ chunk.id }}" class="cloze-chunk">{{ chunk.text }}</span>
