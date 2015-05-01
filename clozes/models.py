@@ -134,7 +134,7 @@ def insert_sample_data():
     # Create user
     sample_user = User.objects.create_user(username='daniel', email='dani@huji.com', password='1234')
 
-    course_names = [u"היסטוריה עולמית", u"כימיה אורגנית", u"שפת C"]
+    course_names = [u"שפת C", u"היסטוריה עולמית", u"כימיה אורגנית"]
     sample_courses = []
 
     for i, course_name in enumerate(course_names):
@@ -146,7 +146,7 @@ def insert_sample_data():
     for i, deck_name in enumerate(deck_names):
         Deck(id=None, course=sample_courses[0], user=sample_user, name=deck_name).save()
 
-    deck_names = [u"טיפוסי משתנים", u"פונקציות", u"פוינטרים"]
+    deck_names = [u"פוינטרים", u"טיפוסי משתנים", u"פונקציות"]
     for i, deck_name in enumerate(deck_names):
         Deck(id=None, course=sample_courses[2], user=sample_user, name=deck_name).save()
 
