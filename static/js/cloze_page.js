@@ -51,9 +51,9 @@
 			
 			
 			$.ajax({
-				type: "POST",
+				type: "GET",
 				url: url,
-				data: elem.value,
+				data: {rating: elem.value}
 			});
 			
 		}

@@ -18,7 +18,7 @@ def learn(request, deck_id):
 
 def update(request, chunk_id):
     blank = get_object_or_404(BlankTextChunk, pk=chunk_id)
-    blank.update_user_feedback(request.post)
+    blank.update_user_feedback(request.GET['rating'])
     return HttpResponse()
 
 

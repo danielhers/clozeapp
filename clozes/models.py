@@ -90,8 +90,9 @@ class BlankTextChunk(TextChunk):
     def update_user_feedback(self, user_rating):
         (interval, new_e_factor) = interval_algorithm(self.e_factor, self.last_interval, user_rating)
         self.last_interval = interval
-        self.next_appearance += interval
+        self.next_appearance += timedelta(interval)
         self.e_factor = new_e_factor
+        self.save()
         self.card.update_next_appearance()
 
 
@@ -100,7 +101,7 @@ def interval_algorithm(e_factor, last_interval, user_rating):
         return INTERVALS[0], e_factor
     elif user_rating == 2:
         e_factor = max(MIN_E_FACTOR, e_factor + E_FACTOR_CHANGE)
-    return int(round(last_interval * e_factor)), e_factor
+    return int(round(last_interval * e_factor / 1000)), e_factor
 
 
 def insert_sample_data():
