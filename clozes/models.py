@@ -64,6 +64,10 @@ class Card(models.Model):
         d = self.next_appearance - date.today()
         return d.days
 
+    @property
+    def chunks(self):
+        return self.textchunk_set.order_by('index').all()
+
 
 class TextChunk(models.Model):
     text = models.TextField()

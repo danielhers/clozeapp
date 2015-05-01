@@ -19,7 +19,7 @@
 
 <section class="cloze-form">
 <div>{{ card.name }}</div>
-{% for chunk in card.textchunk_set.all %}
+{% for chunk in card.chunks %}
     {% if chunk.is_hidden %}
         <span id="{{ chunk.id }}" class="cloze-chunk">{{ chunk.text }}</span>
     {% else %}
