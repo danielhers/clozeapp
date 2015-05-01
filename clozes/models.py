@@ -12,6 +12,7 @@ INTERVALS = [1, 2]
 
 class Course(models.Model):
     name = models.CharField(max_length=50)
+    image = models.ImageField("Image", upload_to="img/", default="button_c.png")
 
 
 class Deck(models.Model):
