@@ -145,11 +145,14 @@ def insert_sample_data():
 
     deck_names = [u"היסטוריה עכשווית", u"המהפכה הצרפתית", u"ימי הביניים", u"העת העתיקה"]
     for i, deck_name in enumerate(deck_names):
-        Deck(id=None, course=sample_courses[0], user=sample_user, name=deck_name).save()
+        Deck(id=None, course=Course.objects.get(name=u"היסטוריה עולמית"), user=sample_user, name=deck_name).save()
 
     deck_names = [u"פוינטרים", u"טיפוסי משתנים", u"פונקציות"]
     for i, deck_name in enumerate(deck_names):
-        Deck(id=None, course=sample_courses[2], user=sample_user, name=deck_name).save()
+        Deck(id=None, course=Course.objects.get(name=u"שפת C"), user=sample_user, name=deck_name).save()
+
+    Deck(id=None, course=Course.objects.get(name=u"כימיה אורגנית"),
+         user=sample_user, name=u"מאפייני התכה ורתיחה").save()
 
     sample_deck = Deck.objects.get(name=u"היסטוריה עכשווית")
     sample_text1 = u"מלחמת העולם _הראשונה_ הסתיימה בשנת 1917"
