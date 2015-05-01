@@ -161,13 +161,17 @@ def insert_sample_data():
     sample_deck.add_card(u"מלחמה", sample_text2)
 
     sample_deck = Deck.objects.get(name=u"פוינטרים")
-    for i in range(1, 5):
-        sample_file = "data/c_sample%d.txt" % i
-        with open(sample_file) as f:
-            name = f.readline()
-            f.readline()
-            text = f.readline()
-        sample_deck.add_card(name, text)
+    for i in range(1, 4):
+        load_sample_data_file(i, sample_deck)
 
-if __name__ == "__main__":
-    pass   # populate DB with simple data
+    sample_deck = Deck.objects.get(name=u"טיפוסי משתנים")
+    load_sample_data_file(4, sample_deck)
+
+
+def load_sample_data_file(i, sample_deck):
+    sample_file = "data/c_sample%d.txt" % i
+    with open(sample_file) as f:
+        name = f.readline()
+        f.readline()
+        text = f.readline()
+    sample_deck.add_card(name, text)
