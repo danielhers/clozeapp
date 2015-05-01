@@ -1,5 +1,4 @@
 		var sum_scores = 0.0;
-		var maximal_score = 6.0;
 		
 		function prepare_page() {
 			set_cloze_attributes();
@@ -19,7 +18,7 @@
 				$(this).attr("data-toggle", "popover");
 				$(this).attr("data-placement", "bottom");
 				$(this).attr("data-content", "<button type=\"button\" class=\"btn btn-danger\" caller=\""+ this.id +"\" value=0 onclick=\"on_result_click(this)\">Forgot</button> " +
-								"<button type=\"button\"; class=\"btn btn-warning\" caller=\""+ this.id +"\" value=1 onclick=\"on_result_click(this)\" >Hard</button>" + 
+								"<button type=\"button\"; class=\"btn btn-warning\" caller=\""+ this.id +"\" value=1 onclick=\"on_result_click(this)\" >Hard</button> " + 
 								"<button type=\"button\"; class=\"btn btn-success\" caller=\""+ this.id +"\" value=2 onclick=\"on_result_click(this)\">Easy</button>");
 			
 			});
@@ -59,6 +58,7 @@
 		}
 		
 		function on_end_click() {
+			var maximal_score = $(".cloze-chunk").length*2.0;
 			var grade = sum_scores*100/maximal_score;
 			$("#myModal_grade").html(grade.toFixed(1));
 		}

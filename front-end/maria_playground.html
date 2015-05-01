@@ -8,7 +8,7 @@
 	
 	<script>
 		var sum_scores = 0.0;
-		var maximal_score = 6.0;
+		var maximal_score = $("#close_num_words").val();
 		
 		function prepare_page() {
 			set_cloze_attributes();
@@ -32,7 +32,7 @@
 				$(this).attr("data-toggle", "popover");
 				$(this).attr("data-placement", "bottom");
 				$(this).attr("data-content", "<button type=\"button\" class=\"btn btn-danger\" caller=\""+ this.id +"\" value=0 onclick=\"on_result_click(this)\">Forgot</button> " +
-								"<button type=\"button\"; class=\"btn btn-warning\" caller=\""+ this.id +"\" value=1 onclick=\"on_result_click(this)\" >Hard</button>" + 
+								"<button type=\"button\"; class=\"btn btn-warning\" caller=\""+ this.id +"\" value=1 onclick=\"on_result_click(this)\" >Hard</button> " + 
 								"<button type=\"button\"; class=\"btn btn-success\" caller=\""+ this.id +"\" value=2 onclick=\"on_result_click(this)\">Easy</button>");
 			
 			});
@@ -72,6 +72,7 @@
 		}
 		
 		function on_end_click() {
+			var maximal_score = $(".cloze-chunk").length*2.0;
 			var grade = sum_scores*100/maximal_score;
 			$("#myModal_grade").html(grade.toFixed(1));
 		}
@@ -187,7 +188,8 @@
 </section>
 
 <nav>
-<a class="btn btn-default skip_button" > דלג </a> <button type="button"; class="btn-lg btn-success" data-toggle="modal" data-target="#myModal" onclick="on_end_click()"> סיימתי! </button> <button type="button" class="btn btn-info">החלף קורס  </button>
+<span style="margin:1%"> <img src="buttons2up_dropbox.png" height="60px" width="150px"> </span>
+<span data-toggle="modal" data-target="#myModal" onclick="on_end_click()" style="margin:1%"> <img src="buttons2fin_dropbox.png" height="60px" width="150px">  </span> 
 </nav>
 
 
@@ -203,7 +205,7 @@
 			<span id="myModal_grade"></span>
         </div>
         <div id="myModal_footer" class="modal-footer">
-          <button type="button" class="btn btn-info" data-dismiss="modal" style="margin:20px" >החלף קורס</button>
+          <button type="button" class="btn-lg btn-info" data-dismiss="modal" style="margin:20px" >החלף קורס</button>
 		  <a type="button" class="btn-lg btn-success skip_button" data-dismiss="modal" >יאללה עוד אחד!</a>
         </div>
       </div>
