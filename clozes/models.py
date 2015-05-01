@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 from django.contrib.auth.models import User
-from datetime import date, datetime, timedelta
+from datetime import date, timedelta
 from django.db.models import Min
 
 INITIAL_E_FACTOR = 2500
@@ -23,7 +23,13 @@ class Deck(models.Model):
     def next_card(self):
         card_set = self.card_set
         min_next = card_set.aggregate(Min('next_appearance'))['next_appearance__min']
-        return card_set.filter(next_appearance=min_next)[0]
+        if min_next > date.today():
+            return None
+        card_list = card_set.filter(next_appearance__gte=min_next)
+        card_list = [card for card in card_list if any(chunk.is_hidden for chunk in card.chunks)]
+        if not card_list:
+            return None
+        return card_list[0]
     
     def add_card(self, card_name, text):
         new_card = Card(id=None, deck=self, name=card_name, next_appearance=date.today())
@@ -73,7 +79,7 @@ class Card(models.Model):
         self.save()
 
     def skip(self):
-        pass
+        self.next_appearance = date.today() + timedelta(days=1)
 
     @property
     def days_left(self):
@@ -128,21 +134,25 @@ def insert_sample_data():
     # Create user
     sample_user = User.objects.create_user(username='daniel', email='dani@huji.com', password='1234')
 
-    course_names = [u"היסטוריה עולמית", u"כימיה אורגנית", u"שפת C"]
+    course_names = [u"שפת C", u"היסטוריה עולמית", u"כימיה אורגנית"]
+    course_images = ["img/button_c.png", "img/button_history.png", "img/button_chemistry.png"]
     sample_courses = []
 
-    for i, course_name in enumerate(course_names):
-        sample_course = Course(id=None, name=course_name)
+    for i, (course_name, course_image) in enumerate(zip(course_names, course_images)):
+        sample_course = Course(id=None, name=course_name, image=course_image)
         sample_course.save()
         sample_courses.append(sample_course)
 
     deck_names = [u"היסטוריה עכשווית", u"המהפכה הצרפתית", u"ימי הביניים", u"העת העתיקה"]
     for i, deck_name in enumerate(deck_names):
-        Deck(id=None, course=sample_courses[0], user=sample_user, name=deck_name).save()
+        Deck(id=None, course=Course.objects.get(name=u"היסטוריה עולמית"), user=sample_user, name=deck_name).save()
 
-    deck_names = [u"טיפוסי משתנים", u"פונקציות", u"פוינטרים"]
+    deck_names = [u"פוינטרים", u"טיפוסי משתנים", u"פונקציות"]
     for i, deck_name in enumerate(deck_names):
-        Deck(id=None, course=sample_courses[2], user=sample_user, name=deck_name).save()
+        Deck(id=None, course=Course.objects.get(name=u"שפת C"), user=sample_user, name=deck_name).save()
+
+    Deck(id=None, course=Course.objects.get(name=u"כימיה אורגנית"),
+         user=sample_user, name=u"מאפייני התכה ורתיחה").save()
 
     sample_deck = Deck.objects.get(name=u"היסטוריה עכשווית")
     sample_text1 = u"מלחמת העולם _הראשונה_ הסתיימה בשנת 1917"
@@ -151,13 +161,17 @@ def insert_sample_data():
     sample_deck.add_card(u"מלחמה", sample_text2)
 
     sample_deck = Deck.objects.get(name=u"פוינטרים")
-    for i in range(1, 5):
-        sample_file = "data/c_sample%d.txt" % i
-        with open(sample_file) as f:
-            name = f.readline()
-            f.readline()
-            text = f.readline()
-        sample_deck.add_card(name, text)
+    for i in range(1, 4):
+        load_sample_data_file(i, sample_deck)
 
-if __name__ == "__main__":
-    pass   # populate DB with simple data
+    sample_deck = Deck.objects.get(name=u"טיפוסי משתנים")
+    load_sample_data_file(4, sample_deck)
+
+
+def load_sample_data_file(i, sample_deck):
+    sample_file = "data/c_sample%d.txt" % i
+    with open(sample_file) as f:
+        name = f.readline()
+        f.readline()
+        text = f.readline()
+    sample_deck.add_card(name, text)
