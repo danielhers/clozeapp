@@ -44,6 +44,21 @@ class Deck(models.Model):
 
         new_card.update_next_appearance()
 
+    @property
+    def normal_score(self):
+        # Get average score of blanks
+        blank_scores = []
+        for card in self.card_set.all():
+            for blank in card.textchunk_set.filter(blanktextchunk__next_appearance__isnull=False):
+                blank_scores.append(blank.blanktextchunk.e_factor)
+        average = sum(blank_scores, 0.0) / len(blank_scores)
+        max_x = max(blank_scores)
+        min_x = min(blank_scores)
+        MINIMUM_SCORE = 1300
+        MAXIMUM_SCORE = 2500
+        scaled = [((MAXIMUM_SCORE - MINIMUM_SCORE)*(x - min_x))/(max_x - min_x) + MINIMUM_SCORE for x in blank_scores]
+        return average(scaled)
+
 
 class Card(models.Model):
     deck = models.ForeignKey(Deck)
@@ -113,24 +128,36 @@ def insert_sample_data():
     # Create user
     sample_user = User.objects.create_user(username='daniel', email='dani@huji.com', password='1234')
 
-    courses = [u"היסטוריה עולמית", u"כימיה אורגנית", u"שפת C"]
-    for i, course in enumerate(courses):
-        sample_course = Course(id=None, name=course)
+    course_names = [u"היסטוריה עולמית", u"כימיה אורגנית", u"שפת C"]
+    sample_courses = []
+
+    for i, course_name in enumerate(course_names):
+        sample_course = Course(id=None, name=course_name)
         sample_course.save()
+        sample_courses.append(sample_course)
 
-    topics = [u"היסטוריה עכשווית", u"המהפכה הצרפתית", u"ימי הביניים", u"העת העתיקה"]
-    for i, topic in enumerate(topics):
-        Deck(id=None, course=Course.objects.get(name=u"היסטוריה עולמית"), user=sample_user, name=topic).save()
+    deck_names = [u"היסטוריה עכשווית", u"המהפכה הצרפתית", u"ימי הביניים", u"העת העתיקה"]
+    for i, deck_name in enumerate(deck_names):
+        Deck(id=None, course=sample_courses[0], user=sample_user, name=deck_name).save()
 
-    topics = [u"טיפוסי משתנים", u"פונקציות", u"פוינטרים"]
-    for i, topic in enumerate(topics):
-        Deck(id=None, course=Course.objects.get(name=u"שפת C"), user=sample_user, name=topic).save()
+    deck_names = [u"טיפוסי משתנים", u"פונקציות", u"פוינטרים"]
+    for i, deck_name in enumerate(deck_names):
+        Deck(id=None, course=sample_courses[2], user=sample_user, name=deck_name).save()
 
     sample_deck = Deck.objects.get(name=u"היסטוריה עכשווית")
     sample_text1 = u"מלחמת העולם _הראשונה_ הסתיימה בשנת 1917"
     sample_deck.add_card(u"מלחמה", sample_text1)
     sample_text2 = u"מלחמת העולם השנייה פרצה בשנת _1939_ ותמה בשנת _1945_"
     sample_deck.add_card(u"מלחמה", sample_text2)
+
+    sample_deck = Deck.objects.get(name=u"פוינטרים")
+    for i in range(1, 5):
+        sample_file = "data/c_sample%d.txt" % i
+        with open(sample_file) as f:
+            name = f.readline()
+            f.readline()
+            text = f.readline()
+        sample_deck.add_card(name, text)
 
 if __name__ == "__main__":
     pass   # populate DB with simple data
