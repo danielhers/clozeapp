@@ -39,7 +39,7 @@
 </head>
 <body>
 
-<img src="{% static 'img/header1.png' %}" width="600" style="padding-right: 10%; padding-top: 5%; padding-bottom: 5%;"> <!-- ; align: middle -->
+<img src="{% static 'img/header1.png' %}" width="600" style="padding-right: 10%; padding-top: 5%; padding-bottom: 5%;">
 
 {% if course_list %}
     {% for course in course_list %}
@@ -48,7 +48,7 @@
               <div style="text-align: -webkit-center">
                 <div data-toggle="dropdown" class="btn dropdown-toggle" style="color:#0000FF; vertical-align: middle">
                     <img src="{% static 'img/button_chemistry.png' %}" style="width: 25%; position: relative;"/>
-                    <h3 style="font-size: 200%; color:#FF6600;  position: absolute; top: 25%; right: 50%;">{{ course.name }}</h3>
+                    <h3 style="font-size: 150%; color:#FF6600;  position: absolute; top: 25%; right: 47%;">{{ course.name }}</h3>
                 </div>
                 <ul class="dropdown-menu pull-center">
                     {% for deck in course.deck_set.all %}
