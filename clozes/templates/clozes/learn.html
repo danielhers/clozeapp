@@ -12,13 +12,13 @@
 
 <section class="course-form">
 	<span class="course-tag">שם הקורס:</span>
-	<span class="course-entry">{{ card.deck.course.name }}</span>
+	<span class="course-entry">{{ deck.course.name }}</span>
 	<span class="course-tag" style="margin-right:23%">שם השיעור: </span>
-	<span class="course-entry">{{ card.deck.name }}</span>
+	<span class="course-entry">{{ deck.name }}</span>
  </section>
 
+<section class="cloze-form">
 {% if card %}
-    <section class="cloze-form">
     <h3>{{ card.name }}</h3>
     {% for chunk in card.chunks %}
         {% if chunk.is_hidden %}
@@ -27,10 +27,10 @@
             <span class="context">{{ chunk.text }}</span>
         {% endif %}
     {% endfor %}
-    </section>
 {% else %}
     אין עוד מה ללמוד היום
 {% endif %}
+</section>
 
 <nav>
 <span style="margin:1%; cursor: pointer">
@@ -58,7 +58,7 @@
         </div>
         <div id="myModal_footer" class="modal-footer">
           <a href="{% url 'index' %}" class="btn-lg btn-info">קורס אחר</a>
-		  <a href="{% url 'learn' card.deck.id %}" class="btn-lg btn-success">יאללה עוד אחד!</a>
+          <a href="{% url 'learn' deck.id %}" class="btn-lg btn-success">יאללה עוד אחד!</a>
         </div>
       </div>
       

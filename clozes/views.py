@@ -13,7 +13,7 @@ def index(request):
 def learn(request, deck_id):
     deck = get_object_or_404(Deck, pk=deck_id)
     card = deck.next_card()
-    return render(request, 'clozes/learn.html', {'card': card})
+    return render(request, 'clozes/learn.html', {'card': card, 'deck': deck})
 
 
 def update(request, chunk_id):
