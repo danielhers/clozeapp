@@ -25,7 +25,11 @@ class Deck(models.Model):
         min_next = card_set.aggregate(Min('next_appearance'))['next_appearance__min']
         if min_next > date.today():
             return None
-        return card_set.filter(next_appearance__gte=min_next)[0]
+        card_list = card_set.filter(next_appearance__gte=min_next)
+        card_list = [card for card in card_list if any(chunk.is_hidden for chunk in card.chunks)]
+        if not card_list:
+            return None
+        return card_list[0]
     
     def add_card(self, card_name, text):
         new_card = Card(id=None, deck=self, name=card_name, next_appearance=date.today())
