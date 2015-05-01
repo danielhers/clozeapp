@@ -36,3 +36,8 @@ def skip(request, card_id):
         card.skip()
         return HttpResponseRedirect(reverse('learn', args=(card.deck.id,)))
     return HttpResponse()
+
+
+def list(request, deck_id):
+    deck = get_object_or_404(Deck, pk=deck_id)
+    return render(request, 'clozes/list.html', {'deck': deck})

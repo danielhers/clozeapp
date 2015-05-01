@@ -1,0 +1,33 @@
+{% load static %}
+
+<html dir="rtl" lang="he">
+<head>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script src="{% static 'js/cloze_page.js' %}"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/cloze_page_style.css' %}">
+</head>
+<body>
+
+<div class="page-header">
+    <h1> ClozeApp </h1>
+</div>
+
+{% now "d" as today %}
+{{ deck.name }}
+{% for card in deck.card_set.all %}
+    <section>
+        <div>{{ card.name }} (יוצג שוב בעוד {{ card.days_left }} ימים)</div>
+        {% for chunk in card.textchunk_set.all %}
+            {% if chunk.is_hidden %}
+                <span id="{{ chunk.id }}" class="cloze-chunk">{{ chunk.text }}</span>
+            {% else %}
+                <span class="context">{{ chunk.text }}</span>
+            {% endif %}
+        {% endfor %}
+    </section>
+{% endfor %}
+
+</body>
+</html>

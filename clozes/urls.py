@@ -13,4 +13,6 @@ urlpatterns = [
     url(r'^insert/(?P<deck_id>[0-9]+)/$', views.insert, name='insert'),
     # Skip card to get the next one, ex: /insert/24/
     url(r'^skip/(?P<card_id>[0-9]+)/$', views.skip, name='skip'),
+    # List cards in deck, ex: /list/5/
+    url(r'^list/(?P<deck_id>[0-9]+)/$', views.list, name='list'),
 ]

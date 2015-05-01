@@ -32,7 +32,7 @@ class Deck(models.Model):
             is_blank = i % 2 == 1
             if is_blank:
                 new_chunk = BlankTextChunk(id=None,
-                                           next_appearance=date.today() + timedelta(days=INTERVALS[0]),
+                                           next_appearance=date.today(),
                                            e_factor=INITIAL_E_FACTOR)
             else:
                 new_chunk = TextChunk(id=None)
@@ -59,6 +59,11 @@ class Card(models.Model):
     def skip(self):
         pass
 
+    @property
+    def days_left(self):
+        d = self.next_appearance - date.today()
+        return d.days
+
 
 class TextChunk(models.Model):
     text = models.TextField()
@@ -69,7 +74,7 @@ class TextChunk(models.Model):
     def is_hidden(self):
         try:
             b = BlankTextChunk.objects.get(pk=self.id)
-            return b.next_appearance > datetime.date(datetime.now())
+            return b.next_appearance <= date.today()
         except BlankTextChunk.DoesNotExist:
             return False
 
@@ -84,6 +89,7 @@ class BlankTextChunk(TextChunk):
 
     def update_user_feedback(self, user_rating):
         (interval, new_e_factor) = interval_algorithm(self.e_factor, self.last_interval, user_rating)
+        self.last_interval = interval
         self.next_appearance += interval
         self.e_factor = new_e_factor
         self.card.update_next_appearance()
