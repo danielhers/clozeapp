@@ -135,10 +135,11 @@ def insert_sample_data():
     sample_user = User.objects.create_user(username='daniel', email='dani@huji.com', password='1234')
 
     course_names = [u"שפת C", u"היסטוריה עולמית", u"כימיה אורגנית"]
+    course_images = ["img/button_c.png", "img/button_history.png", "img/button_chemistry.png"]
     sample_courses = []
 
-    for i, course_name in enumerate(course_names):
-        sample_course = Course(id=None, name=course_name)
+    for i, (course_name, course_image) in enumerate(zip(course_names, course_images)):
+        sample_course = Course(id=None, name=course_name, image=course_image)
         sample_course.save()
         sample_courses.append(sample_course)
 
