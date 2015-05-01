@@ -17,20 +17,33 @@
 	<span class="course-entry">{{ card.deck.name }}</span>
  </section>
 
-<section class="cloze-form">
-<h3>{{ card.name }}</h3>
-{% for chunk in card.chunks %}
-    {% if chunk.is_hidden %}
-        <span id="{{ chunk.id }}" class="cloze-chunk">{{ chunk.text }}</span>
-    {% else %}
-        <span class="context">{{ chunk.text }}</span>
-    {% endif %}
-{% endfor %}
-</section>
+{% if card %}
+    <section class="cloze-form">
+    <h3>{{ card.name }}</h3>
+    {% for chunk in card.chunks %}
+        {% if chunk.is_hidden %}
+            <span id="{{ chunk.id }}" class="cloze-chunk">{{ chunk.text }}</span>
+        {% else %}
+            <span class="context">{{ chunk.text }}</span>
+        {% endif %}
+    {% endfor %}
+    </section>
+{% else %}
+    אין עוד מה ללמוד היום
+{% endif %}
 
 <nav>
-<span style="margin:1%"> <img src="buttons2up_dropbox.png" height="60px" width="150px"> </span>
-<span data-toggle="modal" data-target="#myModal" onclick="on_end_click()" style="margin:1%"> <img src="buttons2fin_dropbox.png" height="60px" width="150px">  </span> 
+<span style="margin:1%; cursor: pointer">
+    <a href="{% url 'index' %}">
+        <img src="{% static 'img/buttons2up_dropbox.png' %}" height="60px" width="150px">
+    </a>
+</span>
+<span data-toggle="modal" data-target="#myModal" onclick="on_end_click()" style="margin:1%; cursor: pointer">
+    <img src="{% static 'img/buttons2fin_dropbox.png' %}" height="60px" width="150px">
+</span>
+<!--<a class="btn btn-default"> דלג </a>-->
+<!--<a style="cursor: pointer" class="btn-lg btn-success" data-toggle="modal" data-target="#myModal" onclick="on_end_click()">סיימתי!</a>-->
+<!--<a href="{% url 'index' %}" class="btn btn-info">קורס אחר</a>-->
 </nav>
 
  <!-- Modal -->

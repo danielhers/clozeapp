@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 from django.contrib.auth.models import User
-from datetime import date, datetime, timedelta
+from datetime import date, timedelta
 from django.db.models import Min
 
 INITIAL_E_FACTOR = 2500
@@ -23,7 +23,9 @@ class Deck(models.Model):
     def next_card(self):
         card_set = self.card_set
         min_next = card_set.aggregate(Min('next_appearance'))['next_appearance__min']
-        return card_set.filter(next_appearance=min_next)[0]
+        if min_next > date.today():
+            return None
+        return card_set.filter(next_appearance__gte=min_next)[0]
     
     def add_card(self, card_name, text):
         new_card = Card(id=None, deck=self, name=card_name, next_appearance=date.today())
@@ -73,7 +75,7 @@ class Card(models.Model):
         self.save()
 
     def skip(self):
-        pass
+        self.next_appearance = date.today() + timedelta(days=1)
 
     @property
     def days_left(self):

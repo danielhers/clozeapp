@@ -32,10 +32,8 @@ def insert(request, deck_id):
 
 def skip(request, card_id):
     card = get_object_or_404(Card, pk=card_id)
-    if request.method == 'POST':
-        card.skip()
-        return HttpResponseRedirect(reverse('learn', args=(card.deck.id,)))
-    return HttpResponse()
+    card.skip()
+    return HttpResponseRedirect(reverse('learn', args=(card.deck.id,)))
 
 
 def list(request, deck_id):
