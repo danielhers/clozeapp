@@ -83,6 +83,7 @@ class Card(models.Model):
 
     @property
     def days_left(self):
+        self.update_next_appearance()
         d = self.next_appearance - date.today()
         return d.days
 
