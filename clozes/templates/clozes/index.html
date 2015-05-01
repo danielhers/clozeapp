@@ -4,36 +4,56 @@
 <head>
     <title>מסך בחירת קורסים</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+
     <script src="{% static 'js/dropdowns-enhancement.js' %}"></script>
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
     <link rel="stylesheet" href="{% static 'css/dropdowns-enhancement.css' %}">
+
+    <style>
+    body {
+        background: url("{% static 'img/1_no_text_boxes_final.png' %}");
+        background-size: 1600px 900px;
+        background-repeat: no-repeat;
+        padding-top: 40px;
+    }
+
+    ul li {
+        font-size:20px;
+        background-color:black;
+    }
+
+    .dropdown-menu {
+        background-color:black;
+    }
+    </style>
 </head>
 <body>
 
-<h1 class = "text-center">מה אלמד היום? :)</h1>
-<dl> </dl>
+<img src="{% static 'img/header1.png' %}" width="600" style="padding-right: 110px; padding-bottom: 70px;"> <!-- ; align: middle -->
 
 {% if course_list %}
     {% for course in course_list %}
         <dl class="dl-horizontal">
             <div class="btn-group" style="text-align: -webkit-center; display:block">
-                <div  style="text-align: -webkit-center">
-                <button data-toggle="dropdown"
-                        class="btn btn-default dropdown-toggle">{{ course.name }}<span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu pull-center">
-                {% for deck in course.deck_set.all %}
-                  {% if not forloop.first %}
-                      <li class="divider"></li>
-                  {% endif %}
-                  <li class="text-right{% if not deck.card_set.all %} disabled {% endif %}">
-                      <a href="{% url 'learn' deck.id %}">{{ deck.name }} ({{ deck.card_set.count }})</a>
-                  </li>
-                    <!--(<a href="{% url 'insert' deck.id %}">הכנסת כרטיסיה חדשה</a>)-->
-                {% endfor %}
-                </ul>
+                <div style="text-align: -webkit-center">
+                    <div data-toggle="dropdown" class="btn dropdown-toggle"
+                         style="background-image: url({% static 'img/button_c.png' %}); background-size: contain; background-repeat:no-repeat;
+                         padding: 10px 245px 50px 125px; display: table-cell; vertical-align: middle;">
+                        <h3 style="font-size: 200%;">{{ course.name }}</h3></div>
+                        <ul class="dropdown-menu pull-center">
+                        {% for deck in course.deck_set.all %}
+                          {% if not forloop.first %}
+                              <li class="divider"></li>
+                          {% endif %}
+                          <li class="text-right{% if not deck.card_set.all %} disabled {% endif %}">
+                              <a href="{% url 'learn' deck.id %}">{{ deck.name }} ({{ deck.card_set.count }})</a>
+                          </li>
+                            <!--(<a href="{% url 'insert' deck.id %}">הכנסת כרטיסיה חדשה</a>)-->
+                        {% endfor %}
+                        </ul>
+                    </div>
                 </div>
             </div>
         </dl>

@@ -12,7 +12,7 @@ INTERVALS = [1, 2]
 
 class Course(models.Model):
     name = models.CharField(max_length=50)
-    image = models.ImageField("Image", upload_to="img/", default="button_c.png")
+    image = models.ImageField("Image", upload_to="img/", default="img/button_c.png")
 
 
 class Deck(models.Model):
@@ -113,7 +113,7 @@ def insert_sample_data():
     # Create user
     sample_user = User.objects.create_user(username='daniel', email='dani@huji.com', password='1234')
 
-    courses = [u"היסטוריה עולמית", u"אינפי 1", u"אינפי 2", u"אינפי 3", u"מקרוכלכלה", u"כימיה אורגנית", u"שפת C"]
+    courses = [u"היסטוריה עולמית", u"כימיה אורגנית", u"שפת C"]
     for i, course in enumerate(courses):
         sample_course = Course(id=None, name=course)
         sample_course.save()
@@ -122,11 +122,7 @@ def insert_sample_data():
     for i, topic in enumerate(topics):
         Deck(id=None, course=Course.objects.get(name=u"היסטוריה עולמית"), user=sample_user, name=topic).save()
 
-    topics = [u"החלפת סדר גזירה", u"מישור משיק", u"החלפת משתנים באינטגרציה"]
-    for i, topic in enumerate(topics):
-        Deck(id=None, course=Course.objects.get(name=u"אינפי 1"), user=sample_user, name=topic).save()
-
-    topics = [u"טיפוסי משתנים", u"פונקציות", u"פוינטרים", u"bit fields"]
+    topics = [u"טיפוסי משתנים", u"פונקציות", u"פוינטרים"]
     for i, topic in enumerate(topics):
         Deck(id=None, course=Course.objects.get(name=u"שפת C"), user=sample_user, name=topic).save()
 
